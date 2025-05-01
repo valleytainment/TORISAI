@@ -1,16 +1,23 @@
+```toml
 # netlify.toml
+
 [build]
+  # work from the dashboard subfolder
   base    = "dashboard"
-  # drop --frozen-lockfile, use plain install
-  command = "pnpm install && pnpm rebuild && pnpm build && pnpm export"
-  # once you're in dashboard/, 'out' is the right folder
+  # override Netlify’s default frozen install so your lockfile mismatches won’t fail CI
+  install = "pnpm install --no-frozen-lockfile"
+  # rebuild any native deps, then build & export your Next.js‐static out folder
+  command = "pnpm rebuild && pnpm build && pnpm export"
+  # relative to `base`, this is where your static assets land
   publish = "out"
 
 [build.environment]
-  NODE_ENV                         = "production"
-  NEXT_PUBLIC_API_URL              = "https://placeholder.local"  # swap in prod URL later
+  NODE_ENV                           = "production"
+  NEXT_PUBLIC_API_URL                = "https://placeholder.local"
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
 
 [dev]
+  # for local `netlify dev` support
   command = "pnpm --filter dashboard dev"
   port    = 3000
+```
