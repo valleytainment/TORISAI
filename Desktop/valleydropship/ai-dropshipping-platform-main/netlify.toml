@@ -1,14 +1,12 @@
-```toml
 # netlify.toml
 
 [build]
-  base         = "dashboard"                                                # cd into dashboard first
-  publish      = "dashboard/out"                                            # static output
-  skip_install = true                                                       # skip Netlify’s default install step
-  command      = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
+  base    = "dashboard"                                             # cd into dashboard first
+  publish = "dashboard/out"                                         # static export dir
+  command = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
 
 [build.environment]
   NODE_ENV                           = "production"
-  NEXT_PUBLIC_API_URL                = "https://placeholder.local"           # swap in real later
+  NEXT_PUBLIC_API_URL                = "https://placeholder.local"   # swap in real later
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
-```
+  PNPM_FLAGS                         = "--no-frozen-lockfile"        # ensure Netlify doesn’t abort on lockfile drift
