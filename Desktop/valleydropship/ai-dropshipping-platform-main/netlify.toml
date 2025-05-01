@@ -1,14 +1,14 @@
 # netlify.toml
 
-# ─ Override Netlify’s install step so we can skip frozen-lockfile errors
+# ─ Override Netlify’s default install step so we skip the frozen‐lockfile check ──────
 [install]
   command = "pnpm install --no-frozen-lockfile"
 
-# ─ Build settings
+# ─ Build settings ───────────────────────────────────────────────────────────────────
 [build]
-  base    = "dashboard"              # cd into your dashboard folder first
+  base    = "dashboard"                        # cd into your dashboard folder first
   command = "pnpm rebuild && pnpm build && pnpm export"
-  publish = "dashboard/out"          # static-export output directory
+  publish = "dashboard/out"                    # static-export output directory
 
 [build.environment]
   NODE_ENV                           = "production"
