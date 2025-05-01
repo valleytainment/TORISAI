@@ -1,15 +1,16 @@
 # netlify.toml
 [build]
-  base    = "dashboard"                                            # cd into dashboard first
-  command = "pnpm install --frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
-  publish = "dashboard/out"                                        # static output
+  base    = "dashboard"
+  # drop --frozen-lockfile, use plain install
+  command = "pnpm install && pnpm rebuild && pnpm build && pnpm export"
+  # once you're in dashboard/, 'out' is the right folder
+  publish = "out"
 
 [build.environment]
-  NODE_ENV = "production"
-  NEXT_PUBLIC_API_URL = "https://placeholder.local"               # swap in real later
+  NODE_ENV                         = "production"
+  NEXT_PUBLIC_API_URL              = "https://placeholder.local"  # swap in prod URL later
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
 
-# (optional) if you want Netlify CLI support locally:
 [dev]
   command = "pnpm --filter dashboard dev"
   port    = 3000
