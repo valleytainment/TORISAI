@@ -1,15 +1,14 @@
+```toml
 # netlify.toml
+
 [build]
-  base    = "dashboard"
-  command = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
-  publish = "dashboard/out"
+  base         = "dashboard"                                                # cd into dashboard first
+  publish      = "dashboard/out"                                            # static output
+  skip_install = true                                                       # skip Netlify’s default install step
+  command      = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
 
 [build.environment]
-  NODE_ENV                         = "production"
-  NEXT_PUBLIC_API_URL              = "https://placeholder.local"
+  NODE_ENV                           = "production"
+  NEXT_PUBLIC_API_URL                = "https://placeholder.local"           # swap in real later
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
-
-# (optional) for running locally with `netlify dev`
-[dev]
-  command = "pnpm --filter dashboard dev"
-  port    = 3000
+```
