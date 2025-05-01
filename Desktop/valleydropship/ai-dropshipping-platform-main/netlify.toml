@@ -1,18 +1,19 @@
 # netlify.toml
+
 [build]
-  # 1) cd into the dashboard directory
+  # cd into the dashboard folder first
   base    = "dashboard"
-  # 2) install without frozen-lockfile, rebuild native modules, build & export
+  # skip frozen-lockfile so CI install will succeed
   command = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm build && pnpm export"
-  # 3) publish the Next.js export folder
-  publish = "out"
+  # copy static output from Next.js export
+  publish = "dashboard/out"
 
 [build.environment]
   NODE_ENV                          = "production"
   NEXT_PUBLIC_API_URL               = "https://placeholder.local"
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
 
+# (optional) support Netlify CLI locally
 [dev]
-  # for netlify dev to work locally
   command = "pnpm --filter dashboard dev"
   port    = 3000
