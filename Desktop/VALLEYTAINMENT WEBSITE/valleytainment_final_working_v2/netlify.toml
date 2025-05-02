@@ -1,0 +1,8 @@
+# netlify.toml
+[build]
+  # install deps, build, and export your Next-style dashboard
+  command   = "pnpm install --no-frozen-lockfile && pnpm run build && pnpm run export"
+  # where your static files land
+  publish   = "dashboard/dashboard/out"
+  # where your Netlify Functions live
+  functions = "dashboard/netlify/functions"
