@@ -1,11 +1,5 @@
 [build]
-  # change into the dashboard folder before running everything
-  base = "dashboard"
-  # install without frozen lockfile, rebuild native modules, then build & export
-  command = "pnpm install --no-frozen-lockfile && pnpm rebuild && pnpm run build && pnpm run export"
-  publish = "dashboard/out"
-
-[build.environment]
-  NODE_ENV = "production"
-  NEXT_PUBLIC_API_URL = "https://your-api.example.com"
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_1234"
+  base      = "dashboard"                  # 👈 run all commands from here
+  command   = "pnpm install && pnpm rebuild && pnpm build && pnpm export"
+  publish   = "out"                        # 👈 relative to `dashboard`
+  functions = "netlify/functions"         # 👈 relative to `dashboard`
