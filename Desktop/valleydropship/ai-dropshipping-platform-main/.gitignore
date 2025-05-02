@@ -1,33 +1,17 @@
-# OS / editor noise
-.DS_Store
-Thumbs.db
+# Dependencies
+node_modules/
+.next/
+out/
+
+# Environment
+.env.local
+
+# Logs
 *.log
 
-# Python
-__pycache__/
-.env
-*.pyc
+# OS-specific
+.DS_Store
 
-# React / Vite / Next
-dist/
-build/
-dashboard/node_modules/
-dashboard/.next/
-dashboard/out/
-
-# Terraform
-*.tfstate*
-.terraform/
-
-# VSCode
+# IDEs
+.idea/
 .vscode/
-
-# Netlify / functions
-dashboard/netlify/functions/
-
-# Secrets (NEVER commit real keys)
-*.env
-secrets/
-
-# Runtime media
-media/
