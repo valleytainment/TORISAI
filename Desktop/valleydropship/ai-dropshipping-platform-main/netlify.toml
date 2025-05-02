@@ -1,6 +1,0 @@
-# <repo-root>/netlify.toml
-[build]
-  base      = "dashboard"
-  command   = "pnpm install && pnpm rebuild && pnpm build && pnpm export"
-  publish   = "out"
-  functions = "netlify/functions"
