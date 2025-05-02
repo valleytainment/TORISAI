@@ -1,8 +1,4 @@
-# netlify.toml
+# netlify.toml (place this at the _root_ of your repo)
 [build]
-  # install deps, build, and export your Next-style dashboard
-  command   = "pnpm install --no-frozen-lockfile && pnpm run build && pnpm run export"
-  # where your static files land
-  publish   = "dashboard/dashboard/out"
-  # where your Netlify Functions live
-  functions = "dashboard/netlify/functions"
+  command = ""                       # no build step
+  publish = "valleytainment_final_working_v2"   # where index.html lives
