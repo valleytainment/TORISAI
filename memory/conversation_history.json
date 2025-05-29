@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": 1748486817.9082181,
+    "datetime": "2025-05-28 22:46:57",
+    "agent_type": "planner",
+    "user": "Test question",
+    "ai": "Test answer"
+  },
+  {
+    "timestamp": 1748486858.6971388,
+    "datetime": "2025-05-28 22:47:38",
+    "agent_type": "planner",
+    "user": "Test question",
+    "ai": "Test answer"
+  }
+]

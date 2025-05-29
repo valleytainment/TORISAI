@@ -9,6 +9,7 @@ import json
 import base64
 from PIL import Image, ImageGrab
 import io
+import sys  # Added missing import
 
 class GUIAutomation:
     """
