@@ -1,0 +1,8 @@
+2025-05-29 00:47:37,554 - torisai.ui - INFO - Initialized backend client with base URL: http://localhost:8000
+2025-05-29 00:47:37,928 - httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-05-29 00:48:47,802 - torisai.ui - INFO - Initialized backend client with base URL: http://localhost:8000
+2025-05-29 00:48:48,205 - httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-05-29 00:49:53,736 - torisai.ui - INFO - Initialized backend client with base URL: http://localhost:8000
+2025-05-29 00:49:54,096 - httpx - INFO - HTTP Request: GET http://localhost:7860/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-05-29 00:49:54,123 - httpx - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-05-29 00:49:54,140 - httpx - INFO - HTTP Request: HEAD http://localhost:7860/ "HTTP/1.1 200 OK"

@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Environment]
+"OLLAMA_HOST"="http://127.0.0.1:11434"
+"TORIS_MODEL"="llama3:8b"
