@@ -1,77 +1,108 @@
-#!/usr/bin/env python3
+"""
+TORIS AI - Run Script
+Launches the TORIS AI application with all features
+"""
 import os
 import sys
-import subprocess
-import platform
-import time
+import logging
+from pathlib import Path
 
-def print_header(text):
-    print(f"\n=== {text} ===")
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("./logs/toris.log") if os.path.exists("./logs") else logging.StreamHandler(),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("torisai.run")
 
-def print_step(text):
-    print(f"➤ {text}")
+# Add the project root to the Python path
+project_root = os.path.dirname(os.path.abspath(__file__))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
-def check_ollama_running():
-    """Check if Ollama is running"""
-    try:
-        import requests
-        response = requests.get("http://localhost:11434/api/tags")
-        return response.status_code == 200
-    except:
-        return False
+# Configuration
+CONFIG = {
+    "default_model": os.environ.get("TORIS_MODEL", "llama3:8b"),
+    "ollama_host": os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
+}
 
-def start_ollama():
-    """Start Ollama if not running"""
-    if not check_ollama_running():
-        print_step("Starting Ollama...")
+def check_dependencies():
+    """Check if all required dependencies are installed"""
+    required_packages = [
+        "gradio",
+        "httpx",
+        "pydantic",
+        "PyPDF2",
+        "chromadb"
+    ]
+    
+    missing_packages = []
+    
+    for package in required_packages:
         try:
-            if platform.system() == "Windows":
-                subprocess.Popen(["ollama", "serve"], creationflags=subprocess.CREATE_NEW_CONSOLE)
-            else:
-                subprocess.Popen(["ollama", "serve"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            
-            # Wait for Ollama to start
-            for _ in range(30):  # Wait up to 30 seconds
-                if check_ollama_running():
-                    print("Ollama started successfully")
-                    return True
-                time.sleep(1)
-            
-            print("Failed to start Ollama automatically.")
-            print("Please start Ollama manually and try again.")
+            __import__(package)
+        except ImportError:
+            missing_packages.append(package)
+    
+    if missing_packages:
+        logger.warning(f"Missing dependencies: {', '.join(missing_packages)}")
+        logger.info("Installing missing dependencies...")
+        
+        try:
+            import subprocess
+            subprocess.check_call([sys.executable, "-m", "pip", "install"] + missing_packages)
+            logger.info("Dependencies installed successfully")
+        except Exception as e:
+            logger.error(f"Error installing dependencies: {str(e)}")
+            logger.error("Please install the missing dependencies manually:")
+            logger.error(f"pip install {' '.join(missing_packages)}")
             return False
-        except FileNotFoundError:
-            print("Ollama not found. Please install Ollama first.")
-            print("Visit https://ollama.com/download for installation instructions.")
-            return False
-    else:
-        print("Ollama is already running")
-        return True
+    
+    return True
 
-def run_toris():
-    """Run TORIS AI"""
-    print_header("Starting TORIS AI")
+# --- Simplified sanity check (CLI only) -------------------------------
+import shutil, sys
+if shutil.which("ollama") is None:
+    print("Ollama executable not found on PATH – aborting.")
+    sys.exit(1)
+
+def create_directories():
+    """Create necessary directories"""
+    directories = ["logs", "documents", "memory"]
     
-    # Check if Ollama is installed and running
+    for directory in directories:
+        path = Path(directory)
+        if not path.exists():
+            path.mkdir()
+            logger.info(f"Created directory: {directory}")
+
+def main():
+    """Main entry point"""
+    logger.info("Starting TORIS AI")
+    
+    # Create necessary directories
+    create_directories()
+    
+    # Check dependencies
+    if not check_dependencies():
+        logger.error("Missing dependencies. Please install them and try again.")
+        return 1
+    
     try:
-        subprocess.run(["ollama", "version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-    except (subprocess.SubprocessError, FileNotFoundError):
-        print("Ollama is not installed or not in PATH.")
-        print("Please install Ollama first: https://ollama.com/download")
-        return False
+        # Import and run TORIS AI
+        from torisai.main import TorisAI
+        
+        toris = TorisAI()
+        toris.run()
+        
+        return 0
     
-    # Start Ollama if not running
-    if not start_ollama():
-        return False
-    
-    # Run the TORIS AI application
-    try:
-        print_step("Launching TORIS AI...")
-        subprocess.run([sys.executable, "app_new_gui.py"], check=True)
-        return True
-    except subprocess.SubprocessError as e:
-        print(f"Error running TORIS AI: {e}")
-        return False
+    except Exception as e:
+        logger.error(f"Error running TORIS AI: {str(e)}")
+        return 1
 
 if __name__ == "__main__":
-    run_toris()
+    sys.exit(main())
